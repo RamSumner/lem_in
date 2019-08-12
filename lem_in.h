@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:01:24 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/09 18:03:25 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/12 17:18:32 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct			s_room
 
 typedef struct			s_link
 {
-	int                 nb;
+	int                 pair;
+	int					mark;
 	struct s_link		*next;
 }						t_link;
 
@@ -52,7 +53,7 @@ typedef struct			s_step
 	int					ant_num;
 	int					from;
 	int					dest;
-	struct s_steps		*next;
+	struct s_step		*next;
 }						t_step;		
 
 typedef struct			s_moove
@@ -62,6 +63,14 @@ typedef struct			s_moove
 	struct s_moove		*next;
 }						t_moove;
 
+typedef struct			s_queue
+{
+	int                 room_nb;
+	int					step;
+	int					parent;
+	struct s_queue		*prev;
+	struct s_queue		*next;
+}						t_queue;
 
 int get_data(t_sum *s);
 int add_room_list(t_room **room);
