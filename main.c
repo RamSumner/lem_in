@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:09:27 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/09 18:03:25 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/12 17:21:52 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int ft_return(int status, t_sum *s)
 void print_s(t_sum *s)
 {
 	t_room *r_tmp;
+	t_link *l;
 
 	r_tmp = s->room;
 
@@ -65,12 +66,13 @@ void print_s(t_sum *s)
 	while (i < s->n_rooms)
 	{
 		printf("links for room %d: ", i);
-		while (s->links[i])
+		l = s->links[i];
+		while (l)
 		{
-			printf("%d ", s->links[i]->nb);
-			if (s->links[i]->next != NULL)
+			printf("%d ", l->pair);
+			if (l->next != NULL)
 				printf("-> ");
-			s->links[i] = s->links[i]->next;
+			l = l->next;
 		}
 		printf("\n");
 		i++;
@@ -91,7 +93,7 @@ int main()
 	if (get_data(&s) == ERR || s.n_rooms < 2 || s.n_links < 1 || s.n_ants == 0)
 		return(ft_return(ERR, &s));
 	print_s(&s);
-//	if (find_solution(s) == ERR)
-//		return(ft_return(ERR, &s));
+	if (find_solution(s) == ERR)
+		return(ft_return(ERR, &s));
 	return (ft_return(OK, &s));
 }
