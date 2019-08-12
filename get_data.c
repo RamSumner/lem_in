@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:51:03 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/12 12:29:05 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/12 17:48:16 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,16 @@ int get_data(t_sum *s)
 	char    *line;
 	int     type;
 
-	int fd = open("test1.map", O_RDONLY); /*fd=0*/
 	type = -1;
 	line = NULL;
-	ret = get_next_line(fd, &line); /* get num of ants */
-
+	ret = get_next_line(0, &line); /* get num of ants */
 	if (ret == ERR || get_nb(line, &(s->n_ants), 'a') == ERR || s->n_ants < 0)
 	{
 		ft_strdel(&line);
 		get_next_line(-2, NULL);
 		return (ERR);
 	}
-	while ((ret = get_next_line(fd, &line)) != OK && ret != ERR)
+	while ((ret = get_next_line(0, &line)) != OK && ret != ERR)
 	{
 		if ((type = add_data(line, s, type)) == ERR)
 		{

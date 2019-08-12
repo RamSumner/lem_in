@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 14:21:20 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/12 17:23:43 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/12 17:46:39 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int find_path(t_sum *s, t_moove **moove) /* add checking for solution existance 
 	queue = NULL;
 	ft_add_to_queue(0, s->start, s->links[s->start]->pair, &queue); /* add start room in the queue */
 	start_q = queue;
-	while (queue->room_nb != s->end)
+	while (queue && queue->room_nb != s->end)
 	{
 		l = s->links[queue->room_nb];
 		while (l)
@@ -113,7 +113,7 @@ int find_path(t_sum *s, t_moove **moove) /* add checking for solution existance 
 		printf("room_nb = %d, step = %d, parent = %d\n", start_q->room_nb, start_q->step, start_q->parent);
 		start_q = start_q->next;
 	}
-	printf("finish\nroom_nb = %d, step = %d, parent = %d\n", queue->room_nb, queue->step, queue->parent);
+//	printf("finish\nroom_nb = %d, step = %d, parent = %d\n", queue->room_nb, queue->step, queue->parent);
 	return (OK);
 }
 
