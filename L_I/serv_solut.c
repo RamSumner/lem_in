@@ -6,13 +6,13 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 13:51:30 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/16 13:07:35 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/19 14:15:28 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int if_room_cheched(t_link	*links)
+int if_room_checked(t_link	*links)
 {
 	t_link	*l;
 

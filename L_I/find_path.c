@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/14 13:41:45 by rsumner           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/08/16 16:57:06 by rsumner          ###   ########.fr       */
-=======
-/*   Updated: 2019/08/16 12:41:34 by rsumner          ###   ########.fr       */
->>>>>>> rsumner
+/*   Created: 2019/08/19 12:27:21 by rsumner           #+#    #+#             */
+/*   Updated: 2019/08/19 14:29:36 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +64,13 @@ int	fill_moove(int ant_num, t_queue *q, t_moove **moove)
 	return (OK);
 }
 
-int	find_path_2(t_sum *s, t_queue *start_q, t_queue *q, t_moove **moove)
+int	find_path_2(t_sum *s, t_queue *q, t_moove **moove)
 {
 	t_link	*l;
 	t_queue	*queue;
 	int		free;
 
+	
 	queue = q;
 	free = 0;
 	l = s->links[queue->room_nb];
@@ -88,17 +85,13 @@ int	find_path_2(t_sum *s, t_queue *start_q, t_queue *q, t_moove **moove)
 				l->mark = 1;
 			}
 		}
-		if ((if_room_cheched(s->links[l->pair]) == 0 &&
-			(free = if_room_free(queue->step + 1, l->pair, moove)) == 0 &&
-			if_in_queue(queue->step + 1, queue->room_nb, l->pair, &start_q) == 0))
+		else if ((if_room_checked(s->links[l->pair]) == 0 && (free = if_room_free(queue->step + 1, l->pair, moove)) == 0 && if_in_queue(queue->step + 1, queue->room_nb, l->pair, &queue) == 0))
 		{
 			if (ft_add_to_queue(queue->step + 1, queue->room_nb, l->pair, &queue) == ERR)
 				return (ERR);
 			l->mark = 1;
 		}
-		if (free == 1 && if_in_queue(queue->step + 1, queue->room_nb,
-			queue->room_nb, &start_q) == 0 && ft_add_to_queue(queue->step + 1,
-			queue->room_nb, queue->room_nb, &queue) == ERR)
+		if (free == 1 && if_in_queue(queue->step + 1, queue->room_nb, queue->room_nb, &queue) == 0 && ft_add_to_queue(queue->step + 1, queue->room_nb, queue->room_nb, &queue) == ERR)
 			return (ERR);
 		l = l->next;
 	}
@@ -138,7 +131,7 @@ int find_path(int ant_num, t_sum *s, t_queue **q, t_moove **moove)
 	start_q = queue;
 	while (queue && queue->room_nb != s->end)
 	{
-		if (find_path_2(s, start_q, queue, moove) == ERR)
+		if (find_path_2(s, queue, moove) == ERR)
 			return (ERR);
 		queue = queue->next;
 	}

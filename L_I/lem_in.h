@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:01:24 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/16 15:25:51 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/19 18:08:16 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
+# include <stdio.h>
+
 # define OK 0
 # define ERR -1
 # define STOP -2
@@ -48,7 +50,7 @@ typedef struct			s_sum
 	int					n_links;
 	int					start;
 	int					end;
-	int					dir;
+	int					dir; /*direct path from start to end*/
 	t_room				*room;
 	t_link				**links;
 	t_out				*final_output;
@@ -91,7 +93,7 @@ int						find_solution(t_sum s);
 void					print_result(t_moove **moove, t_sum *s);
 void					print_init(t_sum *s);
 
-int						if_room_cheched(t_link	*links);
+int						if_room_checked(t_link	*links);
 int						if_room_free(int step, int room, t_moove **moove);
 int						if_in_queue(int step, int parent,
 										int room_nb, t_queue **queue);
@@ -107,5 +109,7 @@ t_sum					create_new_sum_structure(void);
 int						ft_return_main(int status, t_sum *s);
 void					ft_clean_out(t_sum *s);
 void					ft_clean_links(t_sum *s);
+int						add_link(t_sum *s, char **tab);
+int						add_room(t_sum *s, char **tab, int stat);
 
 #endif
