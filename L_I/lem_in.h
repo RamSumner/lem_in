@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:01:24 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 18:08:16 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 18:34:15 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
-
+# define BUFF 5000
 # define OK 0
 # define ERR -1
 # define STOP -2
 
-/*------GETTING DATA-------*/
 typedef struct			s_room
 {
 	char				*name;
-	int					n; /* number in the raw for t_link */
+	int					n;
 	int					x;
 	int					y;
 	struct s_room		*next;
@@ -50,13 +48,11 @@ typedef struct			s_sum
 	int					n_links;
 	int					start;
 	int					end;
-	int					dir; /*direct path from start to end*/
+	int					dir;
 	t_room				*room;
 	t_link				**links;
 	t_out				*final_output;
 }						t_sum;
-
-/*------FOR SOLUTION-------*/
 
 typedef struct			s_ants
 {
@@ -82,16 +78,21 @@ typedef struct			s_queue
 	struct s_queue		*next;
 }						t_queue;
 
+typedef struct				s_print
+{
+	char					buff[BUFF];
+	int						len;
+}							t_print;
+
 int						get_data(t_sum *s);
 int						add_room_list(t_room **room);
 int						add_link_list(t_link **link);
-char					**ft_clean_tab(char **tab);
+int						ft_clean_tab(int stat, char **tab);
 int						get_nb(char *str, int *nb, int type);
 int						find_name_num(char *str, t_room *r);
 char					**ft_split(char *s, char c);
 int						find_solution(t_sum s);
 void					print_result(t_moove **moove, t_sum *s);
-void					print_init(t_sum *s);
 
 int						if_room_checked(t_link	*links);
 int						if_room_free(int step, int room, t_moove **moove);
@@ -100,16 +101,16 @@ int						if_in_queue(int step, int parent,
 int						find_path(int ant_num, t_sum *s,
 									t_queue **q, t_moove **moove);
 int						check_for_same_coor(t_sum *s);
-int						ft_add_to_queue(int step, int parent,
+int						ft_add_queue(int step, int parent,
 										int room_nb, t_queue **queue);
 int						add_to_moove(int ant_num, int step_n,
 										int room, t_moove **moove);
-int						ft_return_get(char **line);
 t_sum					create_new_sum_structure(void);
 int						ft_return_main(int status, t_sum *s);
 void					ft_clean_out(t_sum *s);
 void					ft_clean_links(t_sum *s);
 int						add_link(t_sum *s, char **tab);
 int						add_room(t_sum *s, char **tab, int stat);
+int						ft_solut_return(int status, t_queue *queue, t_moove *moove);
 
 #endif

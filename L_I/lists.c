@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 11:43:52 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 18:16:36 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 12:14:49 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,20 @@ int		add_link_list(t_link **link)
 	tmp->next = NULL;
 	list = *link;
 	tmp->next = list;
-	*link= tmp;
+	*link = tmp;
 	return (OK);
 }
 
-void fill_list(t_queue **new, int step, int parent, int room_nb)
+void	fill_list(t_queue **new, int step, int parent, int room_nb)
 {
 	(*new)->room_nb = room_nb;
 	(*new)->step = step;
 	(*new)->parent = parent;
-	(*new)->next= NULL;
+	(*new)->next = NULL;
 	(*new)->prev = NULL;
 }
-	
-int	ft_add_to_queue(int step, int parent, int room_nb, t_queue **queue)
+
+int		ft_add_queue(int step, int parent, int room_nb, t_queue **queue)
 {
 	t_queue *q;
 	t_queue *new;

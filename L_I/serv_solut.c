@@ -6,15 +6,15 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 13:51:30 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 14:15:28 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 12:19:56 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int if_room_checked(t_link	*links)
+int	if_room_checked(t_link *links)
 {
-	t_link	*l;
+	t_link *l;
 
 	l = links;
 	while (l)
@@ -26,10 +26,10 @@ int if_room_checked(t_link	*links)
 	return (0);
 }
 
-int if_room_free(int step, int room, t_moove **moove)
+int	if_room_free(int step, int room, t_moove **moove)
 {
-	t_moove *m;
-	t_ants *a;
+	t_moove	*m;
+	t_ants	*a;
 
 	m = *moove;
 	while (m)
@@ -49,7 +49,7 @@ int if_room_free(int step, int room, t_moove **moove)
 	return (0);
 }
 
-int if_in_queue(int step, int parent, int room_nb, t_queue **queue)
+int	if_in_queue(int step, int parent, int room_nb, t_queue **queue)
 {
 	t_queue *q;
 

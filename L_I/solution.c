@@ -6,7 +6,7 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 14:21:20 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 16:02:47 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 18:33:51 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	free_queue(t_queue *queue)
 
 int		ft_solut_return(int status, t_queue *queue, t_moove *moove)
 {
-	t_moove *m_curr;
-	t_moove *m_next;
-	t_ants *a_curr;
-	t_ants *a_next;
+	t_moove	*m_curr;
+	t_moove	*m_next;
+	t_ants	*a_curr;
+	t_ants	*a_next;
 
 	m_curr = moove;
 	while (m_curr)
@@ -49,16 +49,16 @@ int		ft_solut_return(int status, t_queue *queue, t_moove *moove)
 		m_curr = m_next;
 	}
 	moove = NULL;
-	if (status == ERR)
+	if (queue)
 		free_queue(queue);
-	return(status);
+	return (status);
 }
 
 void	ft_free_marks(int room_n, t_link **links)
 {
 	int		i;
 	t_link	*l;
-	
+
 	i = -1;
 	while (++i < room_n)
 	{
@@ -84,11 +84,10 @@ int		find_solution(t_sum s)
 	{
 		ft_free_marks(s.n_rooms, s.links);
 		if (find_path(i + 1, &s, &queue, &moove) == ERR)
-			return (ft_solut_return(ERR, queue, moove));
+			return (ERR);
 		free_queue(queue);
 		queue = NULL;
 	}
-	print_init(&s);
 	print_result(&moove, &s);
 	return (ft_solut_return(OK, queue, moove));
 }

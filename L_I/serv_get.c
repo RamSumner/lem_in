@@ -6,25 +6,25 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 12:28:00 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 17:30:58 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 16:42:50 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-char	**ft_clean_tab(char **tab)
+int		ft_clean_tab(int stat, char **tab)
 {
 	int i;
 
 	i = -1;
 	while (tab[++i] != NULL)
-		ft_strdel(&tab[i]);	
+		ft_strdel(&tab[i]);
 	free(tab);
 	tab = NULL;
-	return (NULL);
+	return (stat);
 }
 
-int	ft_int(char *str, int min)
+int		ft_int(char *str, int min)
 {
 	int		i;
 	char	*int_p;
@@ -48,7 +48,7 @@ int	ft_int(char *str, int min)
 	return (OK);
 }
 
-int	get_nb(char *str, int *nb, int type)
+int		get_nb(char *str, int *nb, int type)
 {
 	int i;
 	int m;
@@ -67,13 +67,13 @@ int	get_nb(char *str, int *nb, int type)
 	i--;
 	while (str[++i] >= '0' && str[i] <= '9' && str[i] != '\0')
 		*nb = (*nb * 10) + (str[i] - '0');
-	if (str[i] != '\0' && type == 'a') /* for ants num */
+	if (str[i] != '\0' && type == 'a')
 		return (ERR);
 	*nb = (*nb) * m;
 	return (OK);
 }
 
-int find_name_num(char *str, t_room *r)
+int		find_name_num(char *str, t_room *r)
 {
 	t_room *tmp;
 
@@ -87,7 +87,7 @@ int find_name_num(char *str, t_room *r)
 	return (ERR);
 }
 
-int	check_for_same_coor(t_sum *s)
+int		check_for_same_coor(t_sum *s)
 {
 	t_room	*curr;
 

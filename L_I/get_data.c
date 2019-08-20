@@ -6,15 +6,13 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 12:27:38 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 17:36:18 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 18:12:15 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include <sys/stat.h>
 #include <fcntl.h>
-
-
 
 int	add_data_2(char *str, t_sum *s, int type)
 {
@@ -26,18 +24,18 @@ int	add_data_2(char *str, t_sum *s, int type)
 	{
 		stat = type;
 		if (!(tab = ft_strsplit(str, ' ')))
-			return (ERR);
+			return (ft_clean_tab(ERR, tab));
 		if ((type = add_room(s, tab, stat)) == ERR)
-			return(ERR);
-		ft_clean_tab(tab);
+			return (ft_clean_tab(ERR, tab));
+		ft_clean_tab(OK, tab);
 	}
 	if (type == 3)
 	{
 		if (!(tab = ft_strsplit(str, '-')))
-			return (ERR);
+			(ft_clean_tab(ERR, tab));
 		if ((type = add_link(s, tab)) == STOP || type == ERR)
-			return (type);
-		ft_clean_tab(tab);
+			(ft_clean_tab(type, tab));
+		ft_clean_tab(OK, tab);
 	}
 	return (type);
 }
@@ -63,14 +61,14 @@ int	add_data(char *str, t_sum *s, int type)
 				type = STOP;
 		}
 		else
-			return(type);
+			return (type);
 	}
 	else
-		return(add_data_2(str, s, type));
+		return (add_data_2(str, s, type));
 	return (type);
 }
 
-int add_to_output(char **line, t_out **out)
+int	add_to_output(char **line, t_out **out)
 {
 	t_out *o;
 	t_out *new;
@@ -79,7 +77,7 @@ int add_to_output(char **line, t_out **out)
 	if (!(new = (t_out *)malloc(sizeof(t_out))))
 		return (ERR);
 	new->text = *line;
-	new->next= NULL;
+	new->next = NULL;
 	if (!*out)
 		*out = new;
 	else
@@ -92,11 +90,11 @@ int add_to_output(char **line, t_out **out)
 	return (OK);
 }
 
-int ft_return_get(char **line)
+int	ft_return_get(int stat, char **line)
 {
 	ft_strdel(line);
 	get_next_line(-2, NULL);
-	return (ERR);
+	return (stat);
 }
 
 int	get_data(t_sum *s)
@@ -107,24 +105,24 @@ int	get_data(t_sum *s)
 
 	type = -1;
 	line = NULL;
-//	int fd = open("test1.map", O_RDONLY); /* tmp */
+	/*int fd = open("test1.map", O_RDONLY);*/
 	while (s->n_ants == 0)
 	{
-		if (!(ret = get_next_line(0, &line)) || ft_strcmp(line, "##start") == 0 ||\
-		ft_strcmp(line, "##end") == 0)
-			return (ERR);
-		if (((line[0] != '#' && get_nb(line, &(s->n_ants), 'a') == ERR) ||\
-		s->n_ants < 0) || (((line[0] != '#' && s->n_ants > 0 ) || line[0] == '#')\
+		if (!(ret = get_next_line(0, &line)) || ft_strcmp(line, "##start") == 0\
+		|| ft_strcmp(line, "##end") == 0)
+			return (ft_return_get(ERR, &line));
+		if (((line[0] != '#' && get_nb(line, &(s->n_ants), 'a') == ERR) || s->\
+		n_ants < 0) || (((line[0] != '#' && s->n_ants > 0) || line[0] == '#')\
 		&& add_to_output(&line, &(s->final_output)) == ERR))
-			return (ft_return_get(&line));
+			return (ft_return_get(ERR, &line));
 		line = NULL;
 	}
 	while ((ret = get_next_line(0, &line)) != OK && ret != ERR && type != STOP)
 	{
 		if (((type = add_data(line, s, type)) == ERR) || (type != STOP &&\
 		add_to_output(&line, &(s->final_output)) == ERR))
-			return (ft_return_get(&line));
-		line = NULL;
+			return (ft_return_get(ERR, &line));
+		type != STOP ? line = NULL : 0;
 	}
-	return (ret);
+	return (ft_return_get(OK, &line));
 }

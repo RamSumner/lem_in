@@ -6,17 +6,17 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 18:15:50 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 18:16:36 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 12:16:14 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void fill_step(int step_n, t_moove *new, t_moove **moove)
+void	fill_step(int step_n, t_moove *new, t_moove **moove)
 {
 	t_moove *tmp;
 	t_moove *m;
-	
+
 	m = *moove;
 	while (m)
 	{
@@ -25,23 +25,22 @@ void fill_step(int step_n, t_moove *new, t_moove **moove)
 			tmp = m->next;
 			m->next = new;
 			new->next = tmp;
-			break;
+			break ;
 		}
 		m = m->next;
 	}
 }
 
-t_moove *add_step(int step_n, t_moove **moove)
+t_moove	*add_step(int step_n, t_moove **moove)
 {
 	t_moove *new;
 	t_moove *m;
-	
 
 	if (!(new = (t_moove*)malloc(sizeof(t_moove))))
 		return (NULL);
 	new->ants = NULL;
 	new->step_n = step_n;
-	new->next= NULL;
+	new->next = NULL;
 	m = *moove;
 	if (!(*moove))
 		*moove = new;
@@ -55,11 +54,11 @@ t_moove *add_step(int step_n, t_moove **moove)
 	return (new);
 }
 
-int add_to_moove(int ant_num, int step_n, int room, t_moove **moove)
+int		add_to_moove(int ant_num, int step_n, int room, t_moove **moove)
 {
-	t_moove *m;
-	t_ants *new;
-	t_ants *a;
+	t_moove	*m;
+	t_ants	*new;
+	t_ants	*a;
 
 	m = *moove;
 	while (m && m->step_n != step_n)
@@ -70,7 +69,7 @@ int add_to_moove(int ant_num, int step_n, int room, t_moove **moove)
 		return (ERR);
 	new->ant_num = ant_num;
 	new->room = room;
-	new->next= NULL;
+	new->next = NULL;
 	a = m->ants;
 	if (m->ants == NULL)
 		m->ants = new;

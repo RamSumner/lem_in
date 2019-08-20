@@ -6,18 +6,18 @@
 /*   By: rsumner <rsumner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 12:27:21 by rsumner           #+#    #+#             */
-/*   Updated: 2019/08/19 14:29:36 by rsumner          ###   ########.fr       */
+/*   Updated: 2019/08/20 18:36:02 by rsumner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_queue *best_way(int step, int room, t_queue *q)
+t_queue		*best_way(int step, int room, t_queue *q)
 {
 	t_queue *tmp;
 	t_queue *best;
-	int best_step;
-	
+	int		best_step;
+
 	tmp = q;
 	best = q;
 	best_step = tmp->step - tmp->stop;
@@ -33,9 +33,7 @@ t_queue *best_way(int step, int room, t_queue *q)
 	return (best);
 }
 
-
-
-int	fill_moove(int ant_num, t_queue *q, t_moove **moove)
+int			fill_moove(int ant_num, t_queue *q, t_moove **moove)
 {
 	int	par;
 	int	step;
@@ -64,49 +62,43 @@ int	fill_moove(int ant_num, t_queue *q, t_moove **moove)
 	return (OK);
 }
 
-int	find_path_2(t_sum *s, t_queue *q, t_moove **moove)
+int			find_path_2(t_sum *s, t_queue *queue, t_moove **moove)
 {
 	t_link	*l;
-	t_queue	*queue;
+	t_queue	*q;
 	int		free;
+	int		status;
 
-	
-	queue = q;
+	q = queue;
 	free = 0;
-	l = s->links[queue->room_nb];
-	while (l)
+	status = OK;
+	l = s->links[q->room_nb];
+	while (l && status != ERR)
 	{
-		if (l->pair == s->end)
-		{
-			if (s->dir == 0 || (s->dir == 1 && queue->room_nb == s->start && (free = if_room_free(queue->step + 1, l->pair, moove)) == 0))
-			{
-				if (ft_add_to_queue(queue->step + 1, queue->room_nb, l->pair, &queue) == ERR)
-					return (ERR);
-				l->mark = 1;
-			}
-		}
-		else if ((if_room_checked(s->links[l->pair]) == 0 && (free = if_room_free(queue->step + 1, l->pair, moove)) == 0 && if_in_queue(queue->step + 1, queue->room_nb, l->pair, &queue) == 0))
-		{
-			if (ft_add_to_queue(queue->step + 1, queue->room_nb, l->pair, &queue) == ERR)
-				return (ERR);
+		if (l->pair == s->end && (s->dir == 0 || (s->dir == 1 && q->room_nb ==\
+		s->start && (free = if_room_free(q->step + 1, l->pair, moove)) == 0))\
+		&& (status = ft_add_queue(q->step + 1, q->room_nb, l->pair, &q)) != ERR)
 			l->mark = 1;
-		}
-		if (free == 1 && if_in_queue(queue->step + 1, queue->room_nb, queue->room_nb, &queue) == 0 && ft_add_to_queue(queue->step + 1, queue->room_nb, queue->room_nb, &queue) == ERR)
-			return (ERR);
+		else if ((if_room_checked(s->links[l->pair]) == 0 && (free =\
+		if_room_free(q->step + 1, l->pair, moove)) == 0 &&\
+		if_in_queue(q->step + 1, q->room_nb, l->pair, &q) == 0) && (status =\
+		ft_add_queue(q->step + 1, q->room_nb, l->pair, &q)) != ERR)
+			l->mark = 1;
+		if (free == 1 && !if_in_queue(q->step + 1, q->room_nb, q->room_nb, &q))
+			status = ft_add_queue(q->step + 1, q->room_nb, q->room_nb, &q);
 		l = l->next;
 	}
-	return (OK);
+	return (status);
 }
 
-t_queue *best_solution(int step, int end, t_queue *queue)
+t_queue		*best_solution(int step, int end, t_queue *queue)
 {
 	t_queue *tmp;
 	t_queue *best;
-	int best_step;
+	int		best_step;
 
 	tmp = queue;
 	best = queue;
-	
 	best_step = tmp->step - tmp->stop;
 	while (tmp && tmp->step == step)
 	{
@@ -120,35 +112,26 @@ t_queue *best_solution(int step, int end, t_queue *queue)
 	return (best);
 }
 
-int find_path(int ant_num, t_sum *s, t_queue **q, t_moove **moove)
+int			find_path(int ant_num, t_sum *s, t_queue **q, t_moove **moove)
 {
 	t_queue *queue;
 	t_queue *start_q;
 
 	queue = *q;
-	if (ft_add_to_queue(0, -1, s->start, &queue) == ERR)
+	if (ft_add_queue(0, -1, s->start, &queue) == ERR)
 		return (ERR);
 	start_q = queue;
 	while (queue && queue->room_nb != s->end)
 	{
 		if (find_path_2(s, queue, moove) == ERR)
-			return (ERR);
+			return (ft_solut_return(ERR, start_q, *moove));
 		queue = queue->next;
 	}
 	if (!queue)
-		return (ERR);
-
-//	printf("-----------Queue----------\n");
-//	while(start_q) /*checking */
-//	{
-//		printf("room_nb = %d, step = %d, parent = %d\n", start_q->room_nb, start_q->step, start_q->parent);
-//		start_q = start_q->next;
-//	}
-//	printf("finish\nroom_nb = %d, step = %d, parent = %d\n", queue->room_nb, queue->step, queue->parent);
-	
+		return (ft_solut_return(ERR, start_q, *moove));	
 	queue = best_solution(queue->step, s->end, queue);
 	if (fill_moove(ant_num, queue, moove) == ERR)
-		return (ERR);
+		return (ft_solut_return(ERR, start_q, *moove));
 	*q = start_q;
 	return (OK);
 }
